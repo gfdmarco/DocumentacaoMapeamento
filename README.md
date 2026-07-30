@@ -7,7 +7,7 @@ season: "2026"
 
 authors: ["Arthur Morita e Gabriel De Marco"]
 
-version: "1.0"
+version: "2.0"
 
 status: "draft"
 
