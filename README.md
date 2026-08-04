@@ -7,7 +7,7 @@ season: "2026"
 
 authors: ["Arthur Morita e Gabriel De Marco"]
 
-version: "1.0"
+version: "2.1"
 
 status: "draft"
 
@@ -80,10 +80,10 @@ O primeiro comando atualiza lista de programas em nossa máquina. O segundo inst
 ### 1.5 ROS2
 Agora, cuidaremos da instalação do ROS2 em nossa máquina Linux na versão 22.04 da distribuição Ubuntu. Além disso, explicamos como funciona o ROS2 no contexto da nossa divisão de Driverless, especialmente em Mapeamento. Para conferir com mais clareza cada etapa, assista ao conteúdo abaixo:
 
-> Parte 01 - Instalação do ROS2: (link a inserir - vídeo a produzir - roteiro do video: https://docs.google.com/document/d/1joCjW5q2515Jpfjb5NIcoxihvrFNfWErHdQmUgCS824/edit?tab=t.0)
+> Parte 01 - Instalação do ROS2: https://drive.google.com/drive/folders/17aS0WbSZafMps24pM8jX_G5lp2kk-O29?hl=pt-br
 
 **OBS**: Recomendamos que o vídeo abaixo seja visto após ler o resto do documento, para ter uma clareza do porque é importante o ROS2 aqui.
-> Parte 02 - Funcionamento do ROS2 (link a inserir - vídeo a produzir)
+> Parte 02 - Funcionamento do ROS2: https://drive.google.com/drive/folders/17aS0WbSZafMps24pM8jX_G5lp2kk-O29?hl=pt-br
 
 ## 2. Introdução ao Mapeamento
 Bom, agora temos tudo preparado para iniciarmos nossa imersão em Mapeamento.
@@ -144,7 +144,7 @@ O grande problema de trabalhar em mapeamento com referencial local é que, ao lo
 
 Diante disso, você pode estar se perguntando: como escolher este referencial global? Quando o sistema inicia, o carro está numa posição. Esta posição é fixada como a posição inicial e fica imóvel durante o percurso do carro, tornando-se o ponto x = y = θ = 0. Caso você não tenha uma base de álgebra linear tão sólida, aqui vai um conteúdo sobre como relacionar estas coordenadas e realizar a transformação de coordenadas locais para coordenadas globais.
 
-> Transformação de Coordenadas: https://drive.google.com/drive/folders/17aS0WbSZafMps24pM8jX_G5lp2kk-O29?hl=pt-br (link provisorio antes de ir p ro youtube)
+> Transformação de Coordenadas: https://drive.google.com/drive/folders/17aS0WbSZafMps24pM8jX_G5lp2kk-O29?hl=pt-br
 
 A ideia por trás é rotacionar o referencial do carro para se orientar da mesma maneira que o referencial global e, depois, transladar o ponto em questão para ser representado globalmente.
 
@@ -244,7 +244,7 @@ Neste método, pegamos todos os cones detectados como pontos e geramos uma malha
 
 Por qual motivo a trajetória é mais estável? Como ela depende somente de associar cones opostos sem que necessariamente um seja par de lado do outro, temos um algoritmo mais estável, reduzindo erros de pareamento mesmo que a trajetória esteja incompleta em alguns casos. Para entender melhor como esse cenário funciona visualmente, confira o conteúdo abaixo:
 
-> Triangulação de Delaunay: https://drive.google.com/drive/folders/17aS0WbSZafMps24pM8jX_G5lp2kk-O29?hl=pt-br (link provisorio antes de ir pro youtube)
+> Triangulação de Delaunay: https://drive.google.com/drive/folders/17aS0WbSZafMps24pM8jX_G5lp2kk-O29?hl=pt-br
 
 ## 4. Objetivos e Cenário Atual
 Atualmente, o sistema possui um pipeline funcional de mapeamento local, capaz de receber detecções da Perception e gerar waypoints/centerline para o Controle. Paralelamente, há uma implementação inicial de SLAM (em breve explicamos do que se trata), ainda em desenvolvimento e validação, com o objetivo de construir um mapa global mais consistente e reduzir erros acumulados de localização.
