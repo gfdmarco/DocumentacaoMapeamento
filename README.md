@@ -130,6 +130,7 @@ Exemplo:
 O porquê deste waypoint ficará mais claro na seção de conceitos base, mas tenha em mente que é extremamente importante para a construção da trajetória. Normalmente, temos o eixo x como o que está na frente do carro e y como a lateral. Também é comum ter z como a distância à frente do veículo e x como a posição no eixo lateral.
 
 Pipeline:
+
     Percepção -> Mapeamento -> Controle
 
     Telemetria (em Paralelo)
