@@ -7,7 +7,7 @@ season: "2026"
 
 authors: ["Arthur Morita e Gabriel De Marco"]
 
-version: "2.1"
+version: "2.2"
 
 status: "draft"
 
@@ -135,6 +135,18 @@ Pipeline:
 
     Telemetria (em Paralelo)
 
+Para que você entenda como são os tópicos que nossa subdivisão trabalha e recebe as coisas de Percepção, apresentamos agora. Em Perception, temos os seguintes tópicos:
+    Tópico: ‘/ch/lslidar_point_cloud’
+    Formato: PointCloud2
+
+    Tópico: ‘/zed_node/cones’
+    Formato: Float32MultiArray
+
+    Tópico: ‘/lidar_node/cones’
+    Formato: Float32MultiArray
+
+O primeiro corresponde a nuvem de pontos bruta detectada pelo LiDAR. O segundo tópico corresponde aos pontos e cores detectados pela zed. O terceiro tópico, por sua vez, tem os dados de pontos e cores do LiDAR já tratados. Explicamos: como temos duas fontes diferentes de detecção de cones, precisamos combinar as detecções e combinar o melhor de cada fonte de deteção. A zed possui uma grande precisão para detectar as cores, porém baixa precisão de posições. Já o LiDAR apresenta um comportamento oposto. Com isso, sem entrar em muitos detalhes, a divisão de Percepção realiza um algoritmo de fusão sensorial a partir de uma árvore K-dimensional, uma estrutura de dados complexa, para associar as detecções de zed e LiDAR corretamente, conseguindo o melhor valor de cor e de posição para enviar para a gente que trabalha em Mapeamento. Então, por fim, o que recebemos como dados tratados e definitivos está em ‘/lidar_node/cones’.
+
 ## 3. Conceitos Base
 Diante da ideia apresentada, alguns conceitos base e ao mesmo tempo chave são imprescindíveis no que diz respeito a lidar com as informações recebidas de Percepção e construir a trajetória. Estes, por sua vez, são apresentados a seguir.
 
@@ -159,13 +171,12 @@ Exemplos de informações a receber de um cone detectado no referencial local em
 
     cone = {"x": 5.2, "y": 1.4, "one_hot: [1, 0, 0], "azul", "confidence": 0.87}
 
-
-
 No segundo caso, de One Hot Encoding, poderíamos ter, como exemplo, a seguinte identificação para cada cor:
     Azul: [1, 0, 0]
     Amarelo: [0, 1, 0]
     Laranja: [0, 0, 1]
-Poderíamos também ter simplesmente 0 para azul e 1 para amarelo, diferenciando simplesmente esquerda e direita se a cor laranja não for de grande utilidade
+
+ATENTE-SE: os casos acima são apenas diferentes exemplos de passagem da informação de coloração dos cones que um sistema pode adotar. No contexto atual da divisão de Driverless e, consequentemente, o que recebemos em mapeamento é também uma tripla [x, z, cor] em que x corresponde à coordenada lateral, z à profundidade e cor, como o nome já diz, informa a coloração do cone. Porém, aqui, o que adotamos é apenas uma diferenciação entre azul e amarelo (sem cones laranjas de começo ou fim de pista). Neste caso, passamos 0 para cor azul e 1 para amarelo, o que configura uma maneira extremamente simples, porém eficiente de comunicar as cores para nós, meros seres mortais de Mapeamento. 
 
 ### 3.3 Data Association
 Com um referencial global em mãos, podemos associar novos dados obtidos a dados já constituintes do mapa, verificando se este novo dado é de fato um dado inusitado ou se ele é um dado já existente. Mesmo que o dado possua valores diferentes [ex: (10.1, 5.2) e (10.2, 5.3)], pequenas distorções podem ter ocorrido por conta de imprecisões de pista e/ou trajeto e ainda assim aquele dado corresponder ao mesmo cone.
