@@ -50,11 +50,11 @@ Para desenvolver seus projetos dentro desta subdivisão e como um membro de Driv
 
 Preferencialmente, caso não o possua em sua máquina, opte pela versão 22.04, que casa perfeitamente com a distribuição de ROS2 utilizada por nós. 
 
-Em último caso, se já tiver uma versão Linux em sua máquina e ela esteja em outra versão, trate este problema com a utilização de contêineres através do Docker, uma plataforma que permite executar aplicações que possuem diferentes pré-requisitos (como versão de sistema operacional ou linguagem de programação) sem conflitos.
+Em último caso, se já tiver uma versão Linux em sua máquina e ela estiver em outra versão, trate este problema com a utilização de contêineres através do Docker, uma plataforma que permite executar aplicações que possuem diferentes pré-requisitos (como versão de sistema operacional ou linguagem de programação) sem conflitos.
 
 Recomendamos que, para manter seu sistema operacional de preferência (como o Windows), realize um dual boot em sua máquina. Abaixo, deixamos tutoriais para a instalação do Linux e a utilização do Docker para rodar o ROS2, que explicaremos neste documento.
 
-**OBS**: No tutorial de Linux, certifique-se de baixar a versão 22.04 ao adentrar no site oficial do Ubuntu. Caso tenha problemas para realizar a partição, recomendamos a ferramenta MiniTool Partition Wizard, que resolve problemas de arquivos invisíveis ao particionar o disco.
+**OBS**: No tutorial de Linux, certifique-se de baixar a versão 22.04 ao adentrar o site oficial do Ubuntu. Caso tenha problemas para realizar a partição, recomendamos a ferramenta MiniTool Partition Wizard, que resolve problemas de arquivos invisíveis ao particionar o disco.
 > Tutorial Linux: https://www.youtube.com/watch?v=bzDDiH2Apac
 
 
@@ -69,20 +69,20 @@ Caso não tenha nenhuma base, aqui vai uma playlist introdutória com base de l�
 
 > Playlist referenciada: https://www.youtube.com/watch?v=dzXGwmjpKPk&list=PLiLrXujC4CW3AFaMJyhbObGGlehxNC6BF&index=17 
 
-Para C++, o assunto muda um pouco. Python é uma linguagem interpretada, o que significa que o código-fonte é transformado em algo executável e lido em tempo real. C++, por outro lado, é linguagem compilada, o que exige primeiramente que o código-fonte seja traduzido para linguagem de máquina para que depois torne-se executável. Para termos esse tradutor em nossa máquina, executemos os comandos a seguir:
+Para C++, o assunto muda um pouco. Python é uma linguagem interpretada, o que significa que o código-fonte é transformado em algo executável e lido em tempo real. C++, por outro lado, é uma linguagem compilada, o que exige primeiramente que o código-fonte seja traduzido para linguagem de máquina para que depois se torne executável. Para termos esse tradutor em nossa máquina, executemos os comandos a seguir:
 
     sudo apt update
 
     sudo apt install g++
 
-O primeiro comando atualiza lista de programas em nossa máquina. O segundo instala de fato o pacote principal do C++, incluindo o compilador. Pronto! Temos o básico para conseguir programar nossos sistemas.
+O primeiro comando atualiza a lista de programas em nossa máquina. O segundo instala de fato o pacote principal do C++, incluindo o compilador. Pronto! Temos o básico para conseguir programar nossos sistemas.
 
 ### 1.5 ROS2
 Agora, cuidaremos da instalação do ROS2 em nossa máquina Linux na versão 22.04 da distribuição Ubuntu. Além disso, explicamos como funciona o ROS2 no contexto da nossa divisão de Driverless, especialmente em Mapeamento. Para conferir com mais clareza cada etapa, assista ao conteúdo abaixo:
 
 > Parte 01 - Instalação do ROS2: https://drive.google.com/drive/folders/17aS0WbSZafMps24pM8jX_G5lp2kk-O29?hl=pt-br
 
-**OBS**: Recomendamos que o vídeo abaixo seja visto após ler o resto do documento, para ter uma clareza do porque é importante o ROS2 aqui.
+**OBS**: Recomendamos que o vídeo abaixo seja visto após ler o resto do documento, para entender o porquê de o ROS2 é importante aqui.
 > Parte 02 - Funcionamento do ROS2: https://drive.google.com/drive/folders/17aS0WbSZafMps24pM8jX_G5lp2kk-O29?hl=pt-br
 
 ## 2. Introdução ao Mapeamento
@@ -93,7 +93,7 @@ Primeiramente, você deve entender qual o papel desta subdivisão no pipeline de
 Em Mapeamento, pegamos aquilo que a divisão de Percepção enxerga e transformamos em algo que a divisão de Controle consegue seguir. Tecnicamente, recebemos as coordenadas de detecção dos objetos demarcadores da pista (cones), construímos um mapa de informações e planejamos uma trajetória. A partir disso, Controle consegue calcular o esterçamento e torque necessários para seguir esta trajetória.
 
 ### 2.2 Arquitetura Atual
-Para a comunicação entre os subsistemas de cada subdivisão a fim de construir o sistema como um todo, precisamos ter uma maneira de se comunicar para enviar: 
+A fim de contruir um sistema de comunicação no qual os subsistemas de cada subdivisão estejam conectados, é preciso enviar: 
 
 1. As coordenadas de Percepção para Mapeamento
 
@@ -139,11 +139,11 @@ Pipeline:
 Diante da ideia apresentada, alguns conceitos base e ao mesmo tempo chave são imprescindíveis no que diz respeito a lidar com as informações recebidas de Percepção e construir a trajetória. Estes, por sua vez, são apresentados a seguir.
 
 ### 3.1 Referenciais: local e global
-As coordenadas que chegam de Percepção sempre são tomadas em relação ao próprio carro, ou seja, há um referencial local no carro que caminha junto com ele e todas as coletas de pontos são passadas pela ótica deste referencial. Dessa forma, quando o sistema de Percepção detecta um cone, digamos, na posição (3,1), quer dizer que estamos assumindo o referencial do carro, portanto, corresponde a um cone a 3 metros a frente do carro e 1 metro a direita ou esquerda deste, dependendo da convenção entre positivo e negativo.
+As coordenadas que chegam de Percepção sempre são tomadas em relação ao próprio carro, ou seja, há um referencial local no carro que caminha junto com ele e todas as coletas de pontos são passadas pela ótica deste referencial. Dessa forma, quando o sistema de Percepção detecta um cone, digamos, na posição (3,1), quer dizer que estamos assumindo o referencial do carro, portanto, corresponde a um cone a 3 metros à frente do carro e 1 metro à direita ou à esquerda deste, dependendo da convenção entre positivo e negativo.
 
 O grande problema de trabalhar em mapeamento com referencial local é que, ao longo do tempo, este referencial se altera, dado que o carro se movimenta. Com isso, para podermos gravar os cones já vistos, construir um mapa consistente e de posições constantes da pista, além de acumular observações, trabalhamos com um referencial global.
 
-Diante disso, você pode estar se perguntando: como escolher este referencial global? Quando o sistema inicia, o carro está numa posição. Esta posição é fixada como a posição inicial e fica imóvel durante o percurso do carro, tornando-se o ponto x = y = θ = 0. Caso você não tenha uma base de álgebra linear tão sólida, aqui vai um conteúdo sobre como relacionar estas coordenadas e realizar a transformação de coordenadas locais para coordenadas globais.
+Diante disso, você pode estar se perguntando: como escolher este referencial global? Quando o sistema inicia, o carro está numa posição. Esta posição é fixada como a posição inicial e fica imóvel durante o percurso do carro, tornando-se o ponto x = y = θ = 0. Caso você não tenha uma base de álgebra linear tão sólida, aqui vai um vídeo sobre como relacionar estas coordenadas e realizar a transformação de coordenadas locais para coordenadas globais.
 
 > Transformação de Coordenadas: https://drive.google.com/drive/folders/17aS0WbSZafMps24pM8jX_G5lp2kk-O29?hl=pt-br
 
@@ -152,12 +152,12 @@ A ideia por trás é rotacionar o referencial do carro para se orientar da mesma
 ### 3.2 Classificação de cones
 No contexto da Formula Student Driverless, em que nos baseamos em nosso sistema, os cones possuem diferentes cores e cada uma representa um lado da pista. Normalmente, são divididos entre cones azuis e amarelos, em que o primeiro normalmente representa o lado esquerdo da pista e o segundo o lado direito. Normalmente, há cones laranjas, que representam início ou fim de pista.
 
-Diante disso, a divisão de Percepção fica encarregada de nos enviar os cones classificados quanto a sua classe/cor. Normalmente, podemos receber a cor através de uma estratégia chamada One Hot Encoding, em que cada cor representa uma configuração binária de valores. Poderíamos passar essas informações como uma simples string também, mas poderíamos arriscar um pouco a segurança. Em sistemas embarcados/tempo real, costuma ser mais robusto representar classes por inteiros ou vetores binários, evitando inconsistências de escrita, capitalização, acentuação ou custo extra de comparação de strings.
+Diante disso, a divisão de Percepção fica encarregada de nos enviar os cones classificados quanto à sua classe/cor. Normalmente, podemos receber a cor através de uma estratégia chamada One Hot Encoding, em que cada cor representa uma configuração binária de valores. Poderíamos passar essas informações como uma simples string também, mas poderíamos arriscar um pouco a segurança. Em sistemas embarcados/tempo real, costuma ser mais robusto representar classes por inteiros ou vetores binários, evitando inconsistências de escrita, capitalização, acentuação ou custo extra de comparação de strings.
 
 Exemplos de informações a receber de um cone detectado no referencial local em Percepção:
     cone = {"x": 5.2, "y": 1.4, "classe": "azul", "confidence": 0.87}
 
-    cone = {"x": 5.2, "y": 1.4, "one_hot: [1, 0, 0], "azul", "confidence": 0.87}
+    cone = {"x": 5.2, "y": 1.4, "one_hot": [1, 0, 0], "classe": "azul", "confidence": 0.87}
 
 
 
@@ -165,7 +165,7 @@ No segundo caso, de One Hot Encoding, poderíamos ter, como exemplo, a seguinte 
     Azul: [1, 0, 0]
     Amarelo: [0, 1, 0]
     Laranja: [0, 0, 1]
-Poderíamos também ter simplesmente 0 para azul e 1 para amarelo, diferenciando simplesmente esquerda e direita se a cor laranja não for de grande utilidade
+Poderíamos também ter simplesmente 0 para azul e 1 para amarelo, diferenciando simplesmente esquerda e direita se a cor laranja não for de grande utilidade.
 
 ### 3.3 Data Association
 Com um referencial global em mãos, podemos associar novos dados obtidos a dados já constituintes do mapa, verificando se este novo dado é de fato um dado inusitado ou se ele é um dado já existente. Mesmo que o dado possua valores diferentes [ex: (10.1, 5.2) e (10.2, 5.3)], pequenas distorções podem ter ocorrido por conta de imprecisões de pista e/ou trajeto e ainda assim aquele dado corresponder ao mesmo cone.
@@ -215,7 +215,7 @@ No exemplo, percorremos os cones armazenados, calculamos a distância até o nov
 
 Para encerrar esta parte, você talvez se pergunte: por qual motivo deveríamos gastar tempo verificando isso toda vez que um dado novo surge? Bom, sem a associação de dados (Data Association), podemos:
  - Carregar dados de cones duplicados
- - Acarretar numa pista inconsistente 
+ - Acarretar uma pista inconsistente 
  - Consequentemente, gerar uma trajetória mal planejada para nossos amigos de Controle utilizarem como base de seus algoritmos.
 
 ### 3.4 Centerline
@@ -237,7 +237,7 @@ Em que os subíndices correspondem a: m -> médio, e -> esquerda, d -> direita.
 Este procedimento é conhecido como pareamento manual.
 
 ### 3.5 Triangulação de Delaunay
-Tudo parecem flores, porém, temos uma má notícia: o método de pareamento manual, apesar de simples e eficiente, possui algumas limitações. O método depende de um pareamento correto entre o cone da esquerda e seu exato par à direita e, por isso, possui sensibilidade a cones faltando ou detectados incorretamente. Além disso, em pistas mais complexas, ele pode se complicar.
+Nem tudo são flores: o método de pareamento manual, apesar de simples e eficiente, possui algumas limitações. O método depende de um pareamento correto entre o cone da esquerda e seu exato par à direita e, por isso, possui sensibilidade a cones faltando ou detectados incorretamente. Além disso, em pistas mais complexas, ele pode se complicar.
 
 Porém, não se assuste! Temos uma solução. Atualmente, no cenário de Driverless, muitas equipes utilizam uma abordagem mais robusta para a construção da centerline: a Triangulação de Delaunay.
 
@@ -252,7 +252,7 @@ Atualmente, o sistema possui um pipeline funcional de mapeamento local, capaz de
 
 Resumidamente, o SLAM, acrônimo para Simultaneous Localization and Mapping corresponde ao processo de detecção contínua da posição atual do carro no referencial global, permitindo reduzir erros de sensores e confirmar a posição de cones nesse referencial. Na próxima seção, explicamos melhor sobre este conceito. Voltando no assunto do nosso SLAM atual, utilizamos a ferramenta do ROS2 Cartographer, desenvolvido pela Google, o que nos fornece uma primeira volta sólida. Porém, para as voltas seguintes, ainda são necessários processos de otimização de rota a cada nova volta completada pelo carro.
 
-Com isso, no ciclo atual, temos como principal objetivo melhorar o algoritmo de SLAM, desenvolvendo um algoritmo de otimização em grafos. Caso você não tenha cursado Estrutura de Dados ou algo equivalente e não saiba do que um grafo se trata, é uma estrutura de dados que basicamente vai conectando nós com arestas de maneira que satisfaça uma relação lógica entre os nós. No nosso caso, os nós são as posições do carro em cada instante de tempo e as arestas são distância e ângulo entre essas posições. Para maiores detalhes, confira os dois links no final dessa seção para entender melhor grafos e sua aplicabilidade aqui. 
+Com isso, no ciclo atual, temos como principal objetivo melhorar o algoritmo do SLAM, desenvolvendo um algoritmo de otimização em grafos. Caso você não tenha cursado Estrutura de Dados ou algo equivalente e não saiba do que um grafo se trata, é uma estrutura de dados que basicamente vai conectando nós com arestas de maneira que satisfaça uma relação lógica entre os nós. No nosso caso, os nós são as posições do carro em cada instante de tempo e as arestas são distância e ângulo entre essas posições. Para maiores detalhes, confira os dois links no final dessa seção para entender melhor grafos e sua aplicabilidade aqui. 
 
 Além disso, para conseguirmos um desenvolvimento sólido do SLAM, pretendemos fechar uma parceria com o Instituto de Computação (IC) da Unicamp.
 
@@ -267,9 +267,9 @@ Por fim, outro objetivo é testar e validar todo o sistema de Driverless com o c
 ## 5. Localização e Mapa Global
 
 ### 5.1 SLAM - Simultaneous Localization and Mapping
-Seja bem-vindo a parte mais importante deste documento! Aqui está a base do grande objetivo do ciclo atual, que, quando completo, nos enquadrará no padrão de arquitetura das principais equipes de Driverless do mundo. 
+Seja bem-vindo à parte mais importante deste documento! Aqui está a base do grande objetivo do ciclo atual, que, quando completo, nos enquadrará no padrão de arquitetura das principais equipes de Driverless do mundo. 
 
-O SLAM, como o acrônimo do subtítulo explica, é o processo de localização e mapeamento simultâneos. De maneira mais clara, no nosso contexto, é o processo em que o carro descobre sua própria posição no mapa global (localização) ao mesmo tempo que constrói o cenário a sua volta, percebendo onde está cada objeto corretamente (mapeamento). Caso você não tenha percebido, para que a gente consiga armazenar as posições dos cones corretamente no mapa global, precisamos saber a posição correta do carro neste mesmo referencial. Isso é necessário, pois a relação entre as variáveis local e global dos cones passa diretamente pela posição do carro (volte à seção 3.1 caso ainda tenha dúvidas).Se a posição do carro estiver errada, os cones entram em posições erradas. Com isso, o mapa se distorce e erros acumulam, prejudicando a trajetória do carro. Sobre erros, precisamos esclarecer alguns pontos. 
+O SLAM, como o acrônimo no subtítulo explica, é o processo de localização e mapeamento simultâneos. De maneira mais clara, no nosso contexto, é o processo em que o carro descobre sua própria posição no mapa global (localização) ao mesmo tempo que constrói o cenário a sua volta, percebendo onde está cada objeto corretamente (mapeamento). Caso você não tenha percebido, para que a gente consiga armazenar as posições dos cones corretamente no mapa global, precisamos saber a posição correta do carro neste mesmo referencial. Isso é necessário, pois a relação entre as variáveis local e global dos cones passa diretamente pela posição do carro (volte à seção 3.1 caso ainda tenha dúvidas). Se a posição do carro estiver errada, os cones entram em posições erradas. Com isso, o mapa se distorce e erros acumulam, prejudicando a trajetória do carro. Sobre erros, precisamos esclarecer alguns pontos. 
 
 A odometria é uma estimativa do movimento do veículo ao longo do tempo. Ela pode usar informações de encoders nas rodas, IMU/INS e outros sensores inerciais para estimar deslocamento, velocidade e orientação. Porém, essa estimativa acumula erros devido a ruídos, derrapagens, vibrações e imprecisões dos sensores. Esse erro acumulado é chamado de drift
 
@@ -282,7 +282,7 @@ Com o SLAM, quando observamos cones já conhecidos pelo mapa global, comparamos 
 ### 5.2 Filtro de Kalman & ROS2 Cartographer
 Antes de tudo, entenda uma coisa: SLAM é o desafio a ser cumprido, isto é, o **problema** de localização e mapeamento a ser solucionado. O que veremos a seguir é uma das **ferramentas** para solucioná-lo.
 
-Como comentado, atualmente utilizamos o pacote ROS2 Cartographer, que é uma das ferramentas existentes para resolver o problema de SLAM. Como comentado, esta ferramenta utiliza a abordagem em **grafos** para corrigir dados de localização e mapeamento. Porém, avaliamos que seria pertinente apresentar outra ferramenta para solucionar o problema do SLAM: o Filtro de Kalman (Kalman Filter).
+Como comentado, atualmente utilizamos o pacote ROS2 Cartographer, que é uma das ferramentas existentes para resolver o problema do SLAM. Como comentado, esta ferramenta utiliza a abordagem em **grafos** para corrigir dados de localização e mapeamento. Porém, avaliamos que seria pertinente apresentar outra ferramenta para solucionar o problema do SLAM: o Filtro de Kalman (Kalman Filter).
 
 Através do Filtro de Kalman, também utilizamos uma comparação a partir das projeções geradas pela odometria, mas com uma abordagem diferente, sem valer de grafos. O Filtro de Kalman combina duas fontes de informação: uma predição, geralmente obtida por odometria/IMU, e uma medição, obtida por sensores como câmera, LiDAR ou observação de cones. Cada uma dessas informações possui uma incerteza associada. O filtro calcula uma nova estimativa ponderando o quanto deve confiar na predição e o quanto deve confiar na medição. Se a odometria estiver muito incerta, a medição terá mais peso; se a medição estiver ruidosa, a predição terá mais peso.
 
@@ -307,7 +307,7 @@ Assim, o ciclo do Filtro de Kalman para solucionar o SLAM segue o seguinte pipel
 
 Para encerrar, o problema desta abordagem é que sua escalabilidade é baixa. Em abordagens como Filtro de Kalman, o vetor de estado pode crescer conforme novos marcos do ambiente são adicionados, e a matriz de erros também cresce. Isso torna a abordagem menos escalável para mapas grandes. Métodos baseados em grafos, por outro lado, formulam o problema como uma otimização entre poses e restrições, sendo geralmente mais adequados para correções globais como loop closure em mapas maiores.
 
-### 5.3 Filto de Kalman Extendido
+### 5.3 Filtro de Kalman Estendido
 
 Apenas por curiosidade: o Filtro de Kalman tradicional funciona melhor quando o sistema pode ser descrito por equações lineares. Porém, o movimento do carro normalmente é não linear, pois envolve seno, cosseno, ângulos, distância e orientação. Por exemplo, ao atualizar a pose do carro, usamos relações como x_novo = x + v cos(θ) Δt e y_novo = y + v sin(θ) Δt. Como há funções trigonométricas, o sistema não é linear.
 
