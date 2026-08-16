@@ -30,8 +30,9 @@ tags: ["driverless", "eracing", "unicamp", "semana_documentacao"]
 - [3. Conceitos Base](#3-conceitos-base)
 - [4. Objetivos e Cenário Atual](#4-objetivos-e-cenário-atual)
 - [5. Localização e Mapa Global](#5-localização-e-mapa-global)
-- [6. Encerramento](#6-encerramento)
-- [7. Referências](#7-referências)
+- [6. Códigos Atuais](#6-códigos-atuais)
+- [7. Encerramento](#6-encerramento)
+- [8. Referências](#7-referências)
 
 ## 1. Primeiros Passos
 
@@ -80,10 +81,11 @@ O primeiro comando atualiza a lista de programas em nossa máquina. O segundo in
 ### 1.5 ROS2
 Agora, cuidaremos da instalação do ROS2 em nossa máquina Linux na versão 22.04 da distribuição Ubuntu. Além disso, explicamos como funciona o ROS2 no contexto da nossa divisão de Driverless, especialmente em Mapeamento. Para conferir com mais clareza cada etapa, assista ao conteúdo abaixo:
 
-> Parte 01 - Instalação do ROS2: https://drive.google.com/drive/folders/17aS0WbSZafMps24pM8jX_G5lp2kk-O29?hl=pt-br
+> Parte 01 - Instalação do ROS2: https://drive.google.com/drive/u/0/folders/1Ivq6n6mSCxu5Fxr7PyWJ7P9mP-mXsvn1
 
-**OBS**: Recomendamos que o vídeo abaixo seja visto após ler o resto do documento, para entender o porquê de o ROS2 é importante aqui.
-> Parte 02 - Funcionamento do ROS2: https://drive.google.com/drive/folders/17aS0WbSZafMps24pM8jX_G5lp2kk-O29?hl=pt-br
+**OBS**: Recomendamos que o vídeo abaixo seja visto após ler o resto do documento, para entender o porquê de o ROS2 ser importante aqui.
+
+> Parte 02 - Funcionamento do ROS2: https://drive.google.com/drive/u/0/folders/1Ivq6n6mSCxu5Fxr7PyWJ7P9mP-mXsvn1
 
 ## 2. Introdução ao Mapeamento
 Bom, agora temos tudo preparado para iniciarmos nossa imersão em Mapeamento.
@@ -157,7 +159,7 @@ O grande problema de trabalhar em mapeamento com referencial local é que, ao lo
 
 Diante disso, você pode estar se perguntando: como escolher este referencial global? Quando o sistema inicia, o carro está numa posição. Esta posição é fixada como a posição inicial e fica imóvel durante o percurso do carro, tornando-se o ponto x = y = θ = 0. Caso você não tenha uma base de álgebra linear tão sólida, aqui vai um vídeo sobre como relacionar estas coordenadas e realizar a transformação de coordenadas locais para coordenadas globais.
 
-> Transformação de Coordenadas: https://drive.google.com/drive/folders/17aS0WbSZafMps24pM8jX_G5lp2kk-O29?hl=pt-br
+> Transformação de Coordenadas: https://drive.google.com/drive/u/0/folders/1Ivq6n6mSCxu5Fxr7PyWJ7P9mP-mXsvn1
 
 A ideia por trás é rotacionar o referencial do carro para se orientar da mesma maneira que o referencial global e, depois, transladar o ponto em questão para ser representado globalmente.
 
@@ -255,7 +257,7 @@ Neste método, pegamos todos os cones detectados como pontos e geramos uma malha
 
 Por qual motivo a trajetória é mais estável? Como ela depende somente de associar cones opostos sem que necessariamente um seja par de lado do outro, temos um algoritmo mais estável, reduzindo erros de pareamento mesmo que a trajetória esteja incompleta em alguns casos. Para entender melhor como esse cenário funciona visualmente, confira o conteúdo abaixo:
 
-> Triangulação de Delaunay: https://drive.google.com/drive/folders/17aS0WbSZafMps24pM8jX_G5lp2kk-O29?hl=pt-br
+> Triangulação de Delaunay: https://drive.google.com/drive/u/0/folders/1Ivq6n6mSCxu5Fxr7PyWJ7P9mP-mXsvn1
 
 ## 4. Objetivos e Cenário Atual
 Atualmente, o sistema possui um pipeline funcional de mapeamento local, capaz de receber detecções da Perception e gerar waypoints/centerline para o Controle. Paralelamente, há uma implementação inicial de SLAM (em breve explicamos do que se trata), ainda em desenvolvimento e validação, com o objetivo de construir um mapa global mais consistente e reduzir erros acumulados de localização.
@@ -325,10 +327,24 @@ O Extended Kalman Filter, ou EKF, resolve isso aproximando localmente essas fun�
 
 No contexto de Mapeamento e SLAM, o EKF pode ser usado para estimar a pose do carro e, em algumas abordagens, também a posição dos cones no mapa. Ele alterna entre predição por odometria/IMU e correção por observações dos cones.
 
-## 6. Encerramento
+Antes de partirmos para a próxima etapa, recomendamos que assista a vídeo aula de SLAM presente no link abaixo. Caso tenha ficado alguma dúvida sobre como ele funciona e você queira ter um contato mais visual e intuitivo com o conceito, confira-o abaixo:
+
+> SLAM em grafos com ROS2 Cartographer: https://drive.google.com/drive/u/0/folders/1Ivq6n6mSCxu5Fxr7PyWJ7P9mP-mXsvn1
+
+## 6. Códigos Atuais
+Atualmente, temos um algoritmo de planejamento de rota local, documentado pelos membros de ciclos anteriores, que possui utilidade tanto no contexto atual de mapeamento local, como no contexto de quando escalarmos definitivamente para o SLAM, visto que o planejamento de rota apenas consome o que foi gerado pelo SLAM e não o altera. Para entender como funciona, na prática, os algoritmos em python de planejamento de rota com Delaunay, separamos abaixo algumas páginas do GitLab para você acessar. O primeiro link corresponde a um planejamento local mais simples, baseado no pareamento de cones e caminho pela centerline simples. O segundo link, por sua vez, corresponde ao planejamento de rota pelo Delaunay. Separamos dessa forma para você primeiro entrar em contato com um modelo mais simples e, depois, escalar para o que de fato será usado integrado com o SLAM. Confira-os abaixo:
+
+> Path Planner - Centerline: https://gitlab.com/unicamperacing/autonomous-systems/driverless/quantum/mapping/path-planning
+> Path Planner - Delaunay: https://gitlab.com/unicamperacing/autonomous-systems/driverless/sauva/control/repositories/planning 
+
+Aliás, tudo o que for relacionado a Mapeamento e a divisão de Driverless como um todo, está presente no GitLab. Pelo link abaixo, você pode ter um panorama geral da divisão e os códigos que estão lá, além dos documentos que explicam seus funcionamentos. Ao procurar por códigos de Mapeamento, você pode encontrar algumas outras tentativas de projetar o SLAM com Filtro de Kalman Estendido (EKF). Mas, não se preocupe, o que descrevemos neste documento é de fato o estado atual que estamos. Confira-o abaixo:
+
+> Gitlab da Divisão: https://gitlab.com/unicamperacing/autonomous-systems/driverless
+
+## 7. Encerramento
 Com o que explicamos ao longo deste documento, esperamos que você tenha uma boa noção do estágio atual (07/2026) da divisão de Mapeamento. Não se esqueça de conferir as vídeo-aulas aqui apresentadas, sendo algumas delas desenvolvidas por nós mesmos: elas são essenciais e não apenas complementares! Sinta-se à vontade para questionar o que não tenha ficado claro. Esperamos que daqui pra frente tenhamos ótimos resultados! Boa sorte!
 
-## 7. Referências
+## 8. Referências
  - https://gitlab.com/unicamperacing/autonomous-systems/driverless/quantum/mapping/path-planning 
  - https://drive.google.com/file/d/1j4W2X5R0DTC9kRmWkYO2WTCVTk08xBV2/view
  - https://www.youtube.com/playlist?list=PLn8PRpmsu08pzi6EMiYnR-076Mh-q3tWr
