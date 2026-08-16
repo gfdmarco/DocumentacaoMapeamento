@@ -7,9 +7,9 @@ season: "2026"
 
 authors: ["Arthur Morita e Gabriel De Marco"]
 
-version: "2.2"
+version: "3.0"
 
-status: "draft"
+status: "done"
 
 created: "2026-07-24"
 
