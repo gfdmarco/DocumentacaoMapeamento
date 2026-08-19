@@ -177,7 +177,9 @@ No segundo caso, de One Hot Encoding, poderíamos ter, como exemplo, a seguinte 
     Azul: [1, 0, 0]
     Amarelo: [0, 1, 0]
     Laranja: [0, 0, 1]
-Poderíamos também ter simplesmente 0 para azul e 1 para amarelo, diferenciando simplesmente esquerda e direita se a cor laranja não for de grande utilidade.
+Poderíamos também ter simplesmente 0 para azul e 1 para amarelo, diferenciando simplesmente esquerda e direita se a cor laranja não for de grande utilidade
+
+ATENTE-SE: os casos acima são apenas diferentes exemplos de passagem da informação de coloração dos cones que um sistema pode adotar. No contexto atual da divisão de Driverless e, consequentemente, o que recebemos em mapeamento é também uma tripla [x, z, cor] em que x corresponde à coordenada lateral, z à profundidade e cor, como o nome já diz, informa a coloração do cone. Porém, aqui, o que adotamos é apenas uma diferenciação entre azul e amarelo (sem cones laranjas de começo ou fim de pista). Neste caso, passamos 0 para cor azul e 1 para amarelo, o que configura uma maneira extremamente simples, porém eficiente de comunicar as cores para nós, meros seres mortais de Mapeamento. 
 
 ### 3.3 Data Association
 Com um referencial global em mãos, podemos associar novos dados obtidos a dados já constituintes do mapa, verificando se este novo dado é de fato um dado inusitado ou se ele é um dado já existente. Mesmo que o dado possua valores diferentes [ex: (10.1, 5.2) e (10.2, 5.3)], pequenas distorções podem ter ocorrido por conta de imprecisões de pista e/ou trajeto e ainda assim aquele dado corresponder ao mesmo cone.
